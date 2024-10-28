@@ -17,11 +17,23 @@ This script generates an image of the current Fortnite item shop, saving it in a
 
 ## Installation Guide
 
-### Step 1: Download
+### Step 1: Install Python
+1. Download and install Python from the [official Python website](https://www.python.org/downloads/).
+2. Ensure that you check the box to add Python to your PATH during installation.
+
+To verify that Python is correctly installed, open a terminal or command prompt and run:
+
+```bash
+python --version
+```
+
+This should display the installed Python version.
+
+### Step 2: Download
 - Download the code by going to **Code** then **Download ZIP** on the repository page.
 - Extract the contents of the ZIP file to a directory of your choice.
 
-### Step 2: Install Dependencies
+### Step 3: Install Dependencies
 - Open a terminal in the directory where you extracted the files.
 - Run the following command to install the required Python modules:
 
@@ -29,7 +41,7 @@ This script generates an image of the current Fortnite item shop, saving it in a
   pip install -r requirements.txt
   ```
 
-### Step 3: Configure Settings (Optional)
+### Step 4: Configure Settings (Optional)
 - The settings for the app is in the `bot.py` file and the `merger.py` file, the merger file is for the final image, bot is for creating all the smaller images
 
 ## Running the Script
