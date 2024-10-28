@@ -15,6 +15,14 @@ This script generates an image of the current Fortnite item shop, saving it in a
 - Optimized if and for loops for cleaner code.
 - Various other improvements and fixes.
 
+
+
+## Examples:
+![OG Items](https://cdn.ajaxfnc.com/uploads/shopballs/shop.jpg)
+![OG Items](https://cdn.ajaxfnc.com/uploads/shopballs/ogitems.jpg)
+
+
+
 ## Installation Guide
 
 ### Step 1: Install Python
