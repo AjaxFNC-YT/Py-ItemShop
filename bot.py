@@ -17,7 +17,7 @@ from merger import merger
 
 # =========== #
 itemShopFont = 'assets/BurbankBigRegular-BlackItalic.otf'  # the font you wish to use
-overlayPath = "assets/overlay.png"
+overlayPath = "assets/overlay.png" # Overlay image
 
 checkForOgItems = True  # If false, it will not generate the og items image.
 ogThreshold = 200  # threshold to consider an item 'og' (isn't used if checkForOgItems is false)
