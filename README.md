@@ -18,7 +18,7 @@ This script generates an image of the current Fortnite item shop, saving it in a
 ## Installation Guide
 
 ### Step 1: Download
-- Download the code by clicking the **Download ZIP** button on the repository page.
+- Download the code by going to **Code** then **Download ZIP** on the repository page.
 - Extract the contents of the ZIP file to a directory of your choice.
 
 ### Step 2: Install Dependencies
