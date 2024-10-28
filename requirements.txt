@@ -1,0 +1,6 @@
+aiohttp
+aiofiles
+pillow
+asyncio
+datetime
+shutil
