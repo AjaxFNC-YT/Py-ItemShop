@@ -18,7 +18,7 @@ This script generates an image of the current Fortnite item shop, saving it in a
 
 
 ## Examples:
-![OG Items](https://cdn.ajaxfnc.com/uploads/shopballs/shop.jpg)
+![Item Shop](https://cdn.ajaxfnc.com/uploads/shopballs/shop.jpg)
 ![OG Items](https://cdn.ajaxfnc.com/uploads/shopballs/ogitems.jpg)
 
 
