@@ -23,7 +23,7 @@ This script generates an image of the current Fortnite item shop, saving it in a
 
 # Website:
 > [!NOTE]  
-> Note: The website is based on a heavily modified version of this repository to include an API, a website, and additional features.
+> The website is based on a heavily modified version of this repository to include an API, a website, and additional features.
 
 https://shop.ajaxfnc.com/
 
