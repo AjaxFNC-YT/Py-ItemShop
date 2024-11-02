@@ -21,6 +21,11 @@ This script generates an image of the current Fortnite item shop, saving it in a
 ![Item Shop](https://cdn.ajaxfnc.com/uploads/shopballs/py/shop.jpg)
 ![OG Items](https://cdn.ajaxfnc.com/uploads/shopballs/py/ogitems.jpg)
 
+# Website:
+> [!NOTE]  
+> Note: The website is based on a heavily modified version of this repository to include an API, a website, and additional features.
+
+https://shop.ajaxfnc.com/
 
 
 ## Installation Guide
