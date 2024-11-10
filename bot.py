@@ -1,7 +1,10 @@
-# 
-
-
 import asyncio
+import sys
+
+if sys.platform.startswith('win'):
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
+
 import aiohttp
 import aiofiles
 from PIL import Image, ImageFont, ImageDraw
@@ -17,7 +20,7 @@ from merger import merger
 
 # =========== #
 itemShopFont = 'assets/BurbankBigRegular-BlackItalic.otf'  # the font you wish to use
-overlayPath = "assets/overlay.png" # Overlay image
+overlayPath = "assets/overlay.png"
 
 checkForOgItems = True  # If false, it will not generate the og items image.
 ogThreshold = 200  # threshold to consider an item 'og' (isn't used if checkForOgItems is false)
@@ -110,7 +113,7 @@ async def genshop():
     start = time.time()
 
     async with aiohttp.ClientSession() as session:
-        async with session.get('https://fortnite-api.com/v2/shop/br/combined') as resp:
+        async with session.get('https://fortnite-api.com/v2/shop?responseFlags=0x7') as resp:
             if resp.status != 200:
                 return
             data = (await resp.json())['data']
@@ -118,14 +121,30 @@ async def genshop():
         currentdate = data['date'][:10]
 
         print('\nFetching shop data...')
-        featured = data['featured']
+        entries = data['entries']
         item_data_list = []
 
-        if featured:
-            for entry in featured['entries']:
+        if entries:
+            for entry in entries:
                 i = entry
 
                 url = None
+
+                tracks = i.get('tracks', None)
+
+                offertag = i.get('offerTag', {})
+                offerId = offertag.get('id', "")
+
+                brItemsfrfr = i.get('brItems', None)
+
+                if offerId == "sparksjamloop":
+                    continue
+
+                if tracks:
+                    continue
+
+                if not brItemsfrfr:
+                    continue
 
                 new_display_asset = i.get('newDisplayAsset', {})
                 material_instances = new_display_asset.get('materialInstances', [])
@@ -138,9 +157,9 @@ async def genshop():
                         url = render_images[0].get('image')
 
                 if not url:
-                    url = i['items'][0]['images']['icon']
+                    url = i['brItems'][0]['images']['icon']
 
-                last_seen = i['items'][0].get('shopHistory', [])
+                last_seen = i['brItems'][0].get('shopHistory', [])
                 last_seen_date = last_seen[-2][:10] if len(last_seen) >= 2 else 'NEW!'
                 price = i['finalPrice']
 
@@ -149,12 +168,11 @@ async def genshop():
                     filename = f"zzz{i['bundle']['name']}"
                     name = i['bundle']['name']
                 else:
-                    filename = i['items'][0]['id']
-                    name = i['items'][0]['name']
+                    filename = i['brItems'][0]['id']
+                    name = i['brItems'][0]['name']
 
                 if last_seen_date != 'NEW!':
-                    diff_days = (datetime.strptime(currentdate, "%Y-%m-%d") - datetime.strptime(last_seen_date,
-                                                                                                "%Y-%m-%d")).days
+                    diff_days = (datetime.strptime(currentdate, "%Y-%m-%d") - datetime.strptime(last_seen_date, "%Y-%m-%d")).days
                     diff = str(diff_days or 1)
                 else:
                     diff = 'NEW!'
@@ -203,31 +221,52 @@ async def ogitems():
     start = time.time()
 
     async with aiohttp.ClientSession() as session:
-        async with session.get('https://fortnite-api.com/v2/shop/br/combined') as resp:
+        async with session.get('https://fortnite-api.com/v2/shop?responseFlags=0x7') as resp:
             if resp.status != 200:
                 return
             data = (await resp.json())['data']
-            featured = data['featured']
+            entries = data['entries']
             currentdate = data['date'][:10]
 
         resultlist = []
-        for entry in featured['entries']:
-            for i in entry['items']:
-                shophistory = i.get('shopHistory', [])
-                lastseen_date = shophistory[-2][:10] if len(shophistory) >= 2 else currentdate
-                days_since_last_seen = (datetime.strptime(currentdate, "%Y-%m-%d") - datetime.strptime(lastseen_date,
-                                                                                                       "%Y-%m-%d")).days
-                if days_since_last_seen >= ogThreshold:
-                    price = entry['finalPrice']
-                    resultlist.append({
-                        "name": i['name'],
-                        "id": i['id'],
-                        "lastseen_days": str(days_since_last_seen),
-                        "lastseen_date": lastseen_date,
-                        "type": i['type']['displayValue'],
-                        "price": price,
-                        "item_data": i
-                    })
+        for entry in entries:
+
+            i = entry
+
+            tracks = i.get('tracks', None)
+
+            offertag = i.get('offerTag', {})
+            offerId = offertag.get('id', "")
+
+            brItemsfrfr = i.get('brItems', None)
+
+            if offerId == "sparksjamloop":
+                continue
+
+            if tracks:
+                continue
+
+            if not brItemsfrfr:
+                continue
+
+
+            brItems = i['brItems'][0]
+
+            shophistory = i['brItems'][0].get('shopHistory', [])
+            lastseen_date = shophistory[-2][:10] if len(shophistory) >= 2 else currentdate
+            days_since_last_seen = (datetime.strptime(currentdate, "%Y-%m-%d") - datetime.strptime(lastseen_date,
+                                                                                                "%Y-%m-%d")).days
+            if days_since_last_seen >= ogThreshold:
+                price = i['finalPrice']
+                resultlist.append({
+                    "name": brItems['name'],
+                    "id": brItems['id'],
+                    "lastseen_days": str(days_since_last_seen),
+                    "lastseen_date": lastseen_date,
+                    "type": brItems['type']['displayValue'],
+                    "price": price,
+                    "item_data": brItems
+                })
 
         if not resultlist:
             print('There are no rare items.')
