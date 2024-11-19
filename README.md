@@ -4,6 +4,9 @@ A Python program to generate the Fortnite item shop as an image.
 ## Overview
 This script generates an image of the current Fortnite item shop, saving it in a folder. This project was based on the [Fortnite-Shop-Bot](https://github.com/FortniteFevers/Fortnite-Shop-Bot) by FortniteFevers.
 
+## Show Your Support ⭐
+- If you find this project useful or think its cool, consider starring it on github!
+
 ## Updates
 - Removed Twitter integration; (FUCK TWITTER)
 - Now fully asynchronous with threading to maximize speed.
